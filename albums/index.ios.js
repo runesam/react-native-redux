@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
@@ -7,14 +7,18 @@ import {
 } from 'react-native';
 
 const Header = require('./src/components/header');
+const AlbumList = require('./src/components/AlbumList');
 
-const albums = React.createClass({
-  render: () => (
+class albums extends Component {
+  render() {
+    return (
       <View style={styles.container}>
           <Header item={'Albums'} />
+          <AlbumList item={'Album List'} />
       </View>
-    )
-});
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {

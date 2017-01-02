@@ -1,20 +1,21 @@
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
   View
 } from 'react-native';
 
-const React = require('react');
-
-const Header = (props) => {
-  return (
-    <View style={styles.view_style}>
-      <Text style={styles.view_text}>
-        {props.item}
-      </Text>
-    </View>
-  );
-};
+class Header extends Component {
+  render() {
+    return (
+      <View style={styles.view_style}>
+        <Text style={styles.view_text}>
+          {this.props.item}
+        </Text>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   view_style: {
