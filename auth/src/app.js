@@ -6,12 +6,12 @@ StyleSheet,
 View,
 // ScrollView
 } from 'react-native';
-import { Header } from './components/common/';
+import { Header, Button, Spinner, CardSection } from './components/common/';
 import LoginForm from './components/LoginForm';
 
 class App extends Component {
   state = {
-    loggedIn: false
+    loggedIn: null
   }
   componentWillMount() {
     const config = {
@@ -23,16 +23,37 @@ class App extends Component {
     };
     firebase.initializeApp(config);
     firebase.auth().onAuthStateChanged((user) => {
-      this.setState({ loggedIn: user !== false });
+      this.setState({ loggedIn: user !== null });
       console.log(this.state.loggedIn);
       console.log(user);
     });
+  }
+  logUserOut() {
+    firebase.auth().signOut();
+  }
+  renderContent() {
+    switch (this.state.loggedIn) {
+      case true:
+        return (
+          <CardSection>
+            <Button text='Log Out' onPressMe={this.logUserOut.bind(this)} />
+          </CardSection>
+        );
+      case false:
+        return <LoginForm />;
+      default:
+        return (
+          <View style={{ flex: 1 }}>
+            <Spinner size='large' />
+          </View>
+        );
+    }
   }
   render() {
     return (
       <View style={styles.view_style}>
         <Header headerText='Authentication' />
-        <LoginForm />
+        {this.renderContent()}
       </View>
     );
   }
@@ -40,7 +61,7 @@ class App extends Component {
 
 const styles = StyleSheet.create({
   view_style: {
-
+    flex: 1
   },
   view_text: {
 

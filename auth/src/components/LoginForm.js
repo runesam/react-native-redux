@@ -12,7 +12,7 @@ class LoginForm extends Component {
   state= {
     Email: '',
     PassWord: '',
-    error: '',
+    error: null,
     loading: false,
     loginSuccess: false,
     signupSuccess: false
@@ -20,6 +20,7 @@ class LoginForm extends Component {
   onEverythingFail() {
     console.log('onEverythingFail');
     this.setState({ error: 'Authentication Failed', loading: false });
+    console.log(this.state.error);
   }
   onLoginSuccess() {
     console.log('onLoginSuccess');
@@ -27,7 +28,7 @@ class LoginForm extends Component {
       Email: '',
       PassWord: '',
       loading: false,
-      error: '',
+      error: null,
       loginSuccess: true
     });
   }
@@ -37,24 +38,23 @@ class LoginForm extends Component {
       Email: '',
       PassWord: '',
       loading: false,
-      error: '',
+      error: null,
       signupSuccess: true
     });
   }
   onPressMe() {
     if (!this.state.loading) {
       console.log('start');
-      this.setState({ error: '', loading: true });
+      this.setState({ error: null, loading: true });
       firebase.auth().signInWithEmailAndPassword(this.state.Email, this.state.PassWord)
-        .then(this.onLoginSuccess.bind(this))
-        .catch(
-          () => {
-            firebase.auth().createUserWithEmailAndPassword(this.state.Email, this.state.PassWord)
-              .then(this.onSignupSuccess.bind(this))
-              .catch(this.onEverythingFail.bind(this));
-          }
-        )
-        ;
+      .then(this.onLoginSuccess.bind(this))
+      .catch(
+        () => {
+          firebase.auth().createUserWithEmailAndPassword(this.state.Email, this.state.PassWord)
+          .then(this.onSignupSuccess.bind(this))
+          .catch(this.onEverythingFail.bind(this));
+        }
+      );
     }
   }
   updateInput(type, value) {
@@ -65,6 +65,12 @@ class LoginForm extends Component {
       return <Spinner size='small' />;
     }
     return <Button text={'Login'} onPressMe={this.onPressMe.bind(this)} />;
+  }
+  renderError() {
+    if (this.state.error) {
+      console.log('here');
+      return <Text style={styles.error_text}>{this.state.error}</Text>;
+    }
   }
   render() {
     return (
@@ -88,7 +94,7 @@ class LoginForm extends Component {
               secureTextEntry
             />
           </CardSection>
-          <Text style={styles.error_text}>{this.state.error}</Text>
+            {this.renderError()}
           <CardSection>
             {this.renderButton()}
           </CardSection>
@@ -111,7 +117,6 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingLeft: 5,
     alignSelf: 'center'
-
   }
 });
 
