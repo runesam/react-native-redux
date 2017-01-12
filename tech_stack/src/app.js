@@ -6,13 +6,17 @@ StyleSheet,
 View,
 // ScrollView
 } from 'react-native';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import reducers from './reducers';
 import {
   Header,
   // Button,
   // Spinner,
   // CardSection
 } from './components/common/';
-// import LoginForm from './components/LoginForm';
+import LibraryList from './components/LibraryList';
+
 
 class App extends Component {
   state = {
@@ -23,9 +27,12 @@ class App extends Component {
   }
   render() {
     return (
-      <View style={styles.view_style}>
-        <Header headerText='Redux' />
-      </View>
+      <Provider store={createStore(reducers)}>
+        <View style={styles.view_style}>
+          <Header headerText='Redux' />
+          <LibraryList test='test' />
+        </View>
+      </Provider>
     );
   }
 }
