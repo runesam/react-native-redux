@@ -11,12 +11,13 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reducers from './reducers';
 import {
-  Header,
+  // Header,
   // Button,
   // Spinner,
   // CardSection
 } from './components/common/';
-import LoginForm from './components/LoginForm';
+// import LoginForm from './components/LoginForm';
+import Router from './Router';
 // import LibraryList from './components/LibraryList';
 
 
@@ -38,8 +39,7 @@ class App extends Component {
     return (
       <Provider store={this.state.store}>
         <View style={styles.view_style}>
-          <Header headerText='Redux' />
-          <LoginForm test='test' />
+          <Router />
         </View>
       </Provider>
     );

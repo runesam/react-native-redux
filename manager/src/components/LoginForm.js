@@ -90,11 +90,17 @@ class LoginForm extends Component {
         this.props.error.message,
         this.props.clearAlert()
       );
+    } else if (this.props.user) {
+      AlertIOS.alert(
+        'Success',
+        'Logged In Successfully',
+        this.props.clearAlert()
+      );
     }
   }
   renderButton() {
-    if (this.state.loading) {
-      return <Spinner size='small' />;
+    if (this.props.loading) {
+      return <Spinner size='large' />;
     }
     return <Button text={'Login'} onPressMe={this.onPressMe.bind(this)} />;
   }
@@ -126,6 +132,7 @@ class LoginForm extends Component {
               name='Password'
               onChangeText={this.updateInput.bind(this)}
               secureTextEntry
+              value={this.props.password}
             />
           </CardSection>
             {this.renderError()}
@@ -160,6 +167,7 @@ const mapStateToProps = (state) => {
   data.password = state.auth.password;
   data.user = state.auth.user;
   data.error = state.auth.error;
+  data.loading = state.auth.loading;
   return data;
 };
 
